@@ -67,13 +67,36 @@ class GoBoard(object):
         self.board = np.ones(self.maxpoint, dtype = np.int16) * BORDER
         self._empty_filling(self.board)
 
-    def solve(self):
-        '''
-        Send a copy of the board state to negamax to be solved
-        '''
+    #def solve(self):
+    #    '''
+    #    Send a copy of the board state to negamax to be solved
+    #    '''
+    #    currentState = self.copy()
+    #    win, position = self.booleanNegamax(currentState)
+    #    return GoBoardUtil.int_to_color(self.to_play) + ' ' + position if win else GoBoardUtil.int_to_color(GoBoardUtil.opponent(self.to_play))
+
+    def solve(self, color=0):
+        if color == 0:
+            color = self.to_play
+        win, position = self.alphaBetaCall(color)
+        if win == 1:
+           #return GoBoardUtil.int_to_color(color) + ' ' + position 
+           return color, position
+        else:
+           #return GoBoardUtil.int_to_color(GoBoardUtil.opponent(color))
+           return GoBoardUtil.opponent(color), None
+
+
+    # initial call with full window
+    def alphaBetaCall(self, colorInt):
         currentState = self.copy()
-        win, position = self.booleanNegamax(currentState)
-        return GoBoardUtil.int_to_color(self.to_play) + ' ' + position if win else GoBoardUtil.int_to_color(GoBoardUtil.opponent(self.to_play))
+        currentState.to_play = colorInt
+        depth = 1
+        while True:
+            alphaBetaResult, position = self.alphabetaDL(currentState, -10000, 10000, depth)
+            if alphaBetaResult != 0:
+                return alphaBetaResult, position
+            depth += 1
 
     def booleanNegamax(self, state):
         # the base case in NoGo will be either winning or losing.
@@ -95,6 +118,39 @@ class GoBoard(object):
             if success:
                 return (True, str(GoBoardUtil.format_point(self._point_to_coord(move))))
         return (False, None)
+
+    # depth-limited alphabeta
+    def alphabetaDL(self, state, alpha, beta, depth):
+        if state.get_winner() or depth == 0:
+            return (state.staticallyEvaluateForToPlay(), None)
+        for m in state.generate_legal_moves(state.to_play):
+            # simulation board
+            priorBoard = np.array(state.board, copy = True)
+            priorToPlay = state.to_play
+            state.move(m, state.to_play)
+
+            value, _ = self.alphabetaDL(state, -beta, -alpha, depth - 1)
+            value = -value
+
+            if value > alpha:
+                alpha = value
+
+            # reset board
+            state.board = priorBoard
+            state.to_play = priorToPlay
+
+            if value >= beta: 
+                #return beta, str(GoBoardUtil.format_point(self._point_to_coord(m)))   # or value in failsoft (later)
+                return beta, m
+        #return alpha, str(GoBoardUtil.format_point(self._point_to_coord(m)))
+        return alpha, m
+
+    def staticallyEvaluateForToPlay(self):
+        if self.get_winner() == self.to_play:
+            return 1
+        if self.get_winner() == GoBoardUtil.opponent(self.to_play):
+            return -1
+        return 0
 
     def move(self, point, color):
         """

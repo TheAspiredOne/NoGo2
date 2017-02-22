@@ -273,7 +273,11 @@ class GtpConnection():
             self.respond('Error: {}'.format(str(e)))
     
     def solve_cmd(self, args):
-        self.respond('\n' + str(self.board.solve()))
+        color, position = self.board.solve()
+        if position != None:
+            self.respond('\n' + str(GoBoardUtil.int_to_color(color) + ' ' + str(GoBoardUtil.format_point(self.board._point_to_coord(position)))))
+        else:
+           self.respond('\n' + str(GoBoardUtil.int_to_color(GoBoardUtil.opponent(color))))
 
     def play_cmd(self, args):
         """
@@ -324,9 +328,11 @@ class GtpConnection():
             color = GoBoardUtil.color_to_int(board_color)
             move = self.go_engine.get_move(self.board, color)
             if move is None:
-                self.respond("pass")
+                self.respond("resign")
                 return
-
+            winner, position = self.board.solve(color)
+            if winner == color and winner != "unknown":
+                move = position
             if not self.board.check_legal(move, color):
                 move = self.board._point_to_coord(move)
                 board_move = GoBoardUtil.format_point(move)
