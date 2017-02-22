@@ -14,6 +14,7 @@ glossary:
 
 import numpy as np
 from board_util import GoBoardUtil, BLACK, WHITE, EMPTY, BORDER, FLOODFILL 
+from timeout import timeout
 
 class GoBoard(object):
     def __init__(self, size):
@@ -42,6 +43,7 @@ class GoBoard(object):
         self._is_empty = True
         self.passes_white = 0
         self.passes_black = 0
+        self.timelimit = 1
         self.white_captures = 0
         self.black_captures = 0
         self.to_play = BLACK
@@ -78,8 +80,11 @@ class GoBoard(object):
     def solve(self, color=0):
         if color == 0:
             color = self.to_play
-        win, position = self.alphaBetaCall(color)
-        if win == 1:
+        timeoutAlphaBetaCall = timeout(self.timelimit, self.alphaBetaCall, (None, None))
+        win, position = timeoutAlphaBetaCall(color)
+        if win == None:
+            return None, None
+        elif win == 1:
            #return GoBoardUtil.int_to_color(color) + ' ' + position 
            return color, position
         else:

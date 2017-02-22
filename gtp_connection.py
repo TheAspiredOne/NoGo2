@@ -4,6 +4,9 @@ Module for playing games of Go using GoTextProtocol
 This code is based off of the gtp module in the Deep-Go project
 by Isaac Henrion and Amos Storkey at the University of Edinburgh.
 """
+
+from timeout import timeout
+
 import traceback
 import sys
 import os
@@ -46,7 +49,8 @@ class GtpConnection():
             "play": self.play_cmd,
             "final_score": self.final_score_cmd,
             "legal_moves": self.legal_moves_cmd,
-            "solve": self.solve_cmd
+            "solve": self.solve_cmd,
+            "timeout": self.timeout_cmd
         }
 
         # used for argument checking
@@ -59,7 +63,8 @@ class GtpConnection():
             "genmove": (1, 'Usage: genmove {w, b}'),
             "play": (2, 'Usage: play {b, w} MOVE'),
             "legal_moves": (1, 'Usage: legal_moves {w, b}'),
-            "solve": (0, 'Usage: command takes no arguments, solves for current player.')
+            "solve": (0, 'Usage: command takes no arguments, solves for current player.'),
+            "timeout": (1, 'Usage: sets maximum time solve and genmove functions may run')
         }
     
     def __del__(self):
@@ -178,6 +183,11 @@ class GtpConnection():
         self.respond()
         exit()
 
+    def timeout_cmd(self, args):
+        """ Set maximum time that solve of genmore commands can run for """
+        self.board.timelimit = int(args[0])
+        self.respond()
+        
     def name_cmd(self, args):
         """ Return the name of the player """
         self.respond(self.go_engine.name)
@@ -273,8 +283,11 @@ class GtpConnection():
             self.respond('Error: {}'.format(str(e)))
     
     def solve_cmd(self, args):
+       
         color, position = self.board.solve()
-        if position != None:
+        if color == None:
+            self.respond('\nunknown')
+        elif position != None:
             self.respond('\n' + str(GoBoardUtil.int_to_color(color) + ' ' + str(GoBoardUtil.format_point(self.board._point_to_coord(position)))))
         else:
            self.respond('\n' + str(GoBoardUtil.int_to_color(GoBoardUtil.opponent(color))))

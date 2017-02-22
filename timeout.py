@@ -4,8 +4,8 @@ import signal
 class TimeoutException(BaseException):
     pass
 
-# To use this funciton, pass in the amount of time, in seconds that this function should run maximally, and the function that you're looking to time out. This will return a clojure involving your function that will then take in you funtion and either return null or the value of the passed in function 
-def timeout(time, func):
+# To use this funciton, pass in the amount of time in seconds that this function should run maximally, the function that you're looking to time out, and the failure response you expect from the function should it time out. This will return a clojure involving your function that will then take in you funtion and either return None or the value of the passed in function 
+def timeout(time, func, failure):
     def handler(signum, other):
         raise TimeoutException
     
@@ -16,7 +16,7 @@ def timeout(time, func):
         try:
             return func(*args, **kwargs)
         except:
-            return null
+            return failure
         
     return wrapped
 
