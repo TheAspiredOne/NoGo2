@@ -50,7 +50,8 @@ class GtpConnection():
             "final_score": self.final_score_cmd,
             "legal_moves": self.legal_moves_cmd,
             "solve": self.solve_cmd,
-            "timeout": self.timeout_cmd
+            "timelimit": self.timeout_cmd,
+            "print_toplay" : self.print_toplay_cmd
         }
 
         # used for argument checking
@@ -64,11 +65,15 @@ class GtpConnection():
             "play": (2, 'Usage: play {b, w} MOVE'),
             "legal_moves": (1, 'Usage: legal_moves {w, b}'),
             "solve": (0, 'Usage: command takes no arguments, solves for current player.'),
-            "timeout": (1, 'Usage: sets maximum time solve and genmove functions may run')
+            "timelimit": (1, 'Usage: sets maximum time solve and genmove functions may run')
+            #"print_toplay":(0, "Usage: command to print current toplay")
         }
     
     def __del__(self):
         sys.stdout = self.stdout
+
+    def print_toplay_cmd(self,args):
+        print(self.board.to_play)
 
     def write(self, data):
         self.stdout.write(data)
@@ -291,6 +296,7 @@ class GtpConnection():
             self.respond('\n' + str(GoBoardUtil.int_to_color(color) + ' ' + str(GoBoardUtil.format_point(self.board._point_to_coord(position)))))
         else:
            self.respond('\n' + str(GoBoardUtil.int_to_color(GoBoardUtil.opponent(color))))
+           print("something very strange is happening")
 
     def play_cmd(self, args):
         """

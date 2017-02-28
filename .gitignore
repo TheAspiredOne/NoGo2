@@ -1,5 +1,6 @@
-*.pyc
-tests/*.html
-tests/*.dat
 
+
+
+sample_codes
 __pycache__
+tests

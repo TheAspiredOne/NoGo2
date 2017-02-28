@@ -81,7 +81,9 @@ class GoBoard(object):
         if color == 0:
             color = self.to_play
         timeoutAlphaBetaCall = timeout(self.timelimit, self.alphaBetaCall, (None, None))
+
         win, position = timeoutAlphaBetaCall(color)
+        #print("win is ", win, "position is ", position)
         if win == None:
             return None, None
         elif win == 1:
