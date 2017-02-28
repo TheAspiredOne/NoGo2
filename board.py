@@ -113,6 +113,7 @@ class GoBoard(object):
         booleanNegamaxResult, position = self.booleanNegamax(currentState)
         if booleanNegamaxResult:
             return booleanNegamaxResult, position
+        return None, None
 
     def booleanNegamax(self, state):
         # the base case in NoGo will be either winning or losing.
