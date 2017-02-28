@@ -1,5 +1,5 @@
 *.pyc
-*.html
-*.dat
+tests/*.html
+tests/*.dat
 
 __pycache__
