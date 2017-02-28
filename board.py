@@ -87,7 +87,7 @@ class GoBoard(object):
         #print("win is ", win, "position is ", position)
         if win == None:
             return None, None
-        elif win == 1:
+        elif win:
            #return GoBoardUtil.int_to_color(color) + ' ' + position 
            return color, position
         else:
@@ -111,7 +111,7 @@ class GoBoard(object):
         currentState = self.copy()
         currentState.to_play = colorInt
         booleanNegamaxResult, position = self.booleanNegamax(currentState)
-        if booleanNegamaxResult != 0:
+        if booleanNegamaxResult:
             return booleanNegamaxResult, position
 
     def booleanNegamax(self, state):
