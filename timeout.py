@@ -8,6 +8,7 @@ class TimeoutException(BaseException):
 def timeout(time, func, failure):
     def handler(signum, other):
         raise TimeoutException
+        #pass
     
     signal.alarm(time)
     signal.signal(signal.SIGALRM, handler)
