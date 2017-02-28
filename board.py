@@ -80,9 +80,10 @@ class GoBoard(object):
     def solve(self, color=0):
         if color == 0:
             color = self.to_play
-        timeoutAlphaBetaCall = timeout(self.timelimit, self.alphaBetaCall, (None, None))
-
-        win, position = timeoutAlphaBetaCall(color)
+        #timeoutAlphaBetaCall = timeout(self.timelimit, self.alphaBetaCall, (None, None))
+        timeoutBooleanNegamaxCall = timeout(self.timelimit, self.booleanNegamaxCall, (None, None))
+        win, position = timeoutBooleanNegamaxCall(color)
+        #win, position = timeoutAlphaBetaCall(color)
         #print("win is ", win, "position is ", position)
         if win == None:
             return None, None
@@ -105,6 +106,14 @@ class GoBoard(object):
                 return alphaBetaResult, position
             depth += 1
 
+    # initial call with full window
+    def booleanNegamaxCall(self, colorInt):
+        currentState = self.copy()
+        currentState.to_play = colorInt
+        booleanNegamaxResult, position = self.booleanNegamax(currentState)
+        if booleanNegamaxResult != 0:
+            return booleanNegamaxResult, position
+
     def booleanNegamax(self, state):
         # the base case in NoGo will be either winning or losing.
         # or in NoGo simply put the last able to play
@@ -123,8 +132,8 @@ class GoBoard(object):
             state.board = priorBoard
             state.to_play = priorToPlay
             if success:
-                return (True, str(GoBoardUtil.format_point(self._point_to_coord(move))))
-        return (False, None)
+                return True, move
+        return False, None
 
     # depth-limited alphabeta
     def alphabetaDL(self, state, alpha, beta, depth):

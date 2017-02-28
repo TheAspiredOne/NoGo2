@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{03c0255d-dac9-46d4-b76d-d2c3d25a6601}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>Go1.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+    <InterpreterVersion />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="board.py" />
+    <Compile Include="board_util.py" />
+    <Compile Include="Go1.py" />
+    <Compile Include="gtp_connection.py" />
+    <Compile Include="timeout.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tests\a2-sample.gtp.html" />
+    <Content Include="tests\a2-sample.gtp.out.html" />
+    <Content Include="tests\index.html" />
+    <Content Include="tests\public-tests-nogo-solve.gtp.html" />
+    <Content Include="tests\public-tests-nogo-solve.gtp.out.html" />
+    <Content Include="tests\test_cases_easy.gtp.html" />
+    <Content Include="tests\test_cases_easy.gtp.out.html" />
+    <Content Include="tests\test_cases_hard.gtp.html" />
+    <Content Include="tests\test_cases_hard.gtp.out.html" />
+    <Content Include="tests\test_cases_medium.gtp.html" />
+    <Content Include="tests\test_cases_medium.gtp.out.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="tests" />
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+</Project>
