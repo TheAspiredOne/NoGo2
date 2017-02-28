@@ -296,7 +296,6 @@ class GtpConnection():
             self.respond('\n' + str(GoBoardUtil.int_to_color(color) + ' ' + str(GoBoardUtil.format_point(self.board._point_to_coord(position)))))
         else:
            self.respond('\n' + str(GoBoardUtil.int_to_color(GoBoardUtil.opponent(color))))
-           print("something very strange is happening")
 
     def play_cmd(self, args):
         """
