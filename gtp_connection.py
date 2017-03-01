@@ -290,12 +290,15 @@ class GtpConnection():
     def solve_cmd(self, args):
        
         color, position = self.board.solve()
+        # didn't finish
         if color == None:
             self.respond('\nunknown')
+        # winner
         elif position != None:
             self.respond('\n' + str(GoBoardUtil.int_to_color(color) + ' ' + str(GoBoardUtil.format_point(self.board._point_to_coord(position)))))
+        # loser
         else:
-           self.respond('\n' + str(GoBoardUtil.int_to_color(GoBoardUtil.opponent(color))))
+           self.respond('\n' + str(GoBoardUtil.int_to_color(color)))
 
     def play_cmd(self, args):
         """

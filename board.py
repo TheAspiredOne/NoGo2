@@ -81,18 +81,20 @@ class GoBoard(object):
         if color == 0:
             color = self.to_play
         #timeoutAlphaBetaCall = timeout(self.timelimit, self.alphaBetaCall, (None, None))
-        timeoutBooleanNegamaxCall = timeout(self.timelimit, self.booleanNegamaxCall, (None, None))
-        win, position = timeoutBooleanNegamaxCall(color)
+        #timeoutBooleanNegamaxCall = timeout(self.timelimit, self.booleanNegamaxCall, (None, None))
+#        win, position = timeoutBooleanNegamaxCall(color)
+        win, position = self.booleanNegamaxCall(color)
         #win, position = timeoutAlphaBetaCall(color)
         #print("win is ", win, "position is ", position)
         if win == None:
             return None, None
         elif win:
-           #return GoBoardUtil.int_to_color(color) + ' ' + position 
-           return color, position
+            #return GoBoardUtil.int_to_color(color) + ' ' + position 
+            return color, position
         else:
-           #return GoBoardUtil.int_to_color(GoBoardUtil.opponent(color))
-           return GoBoardUtil.opponent(color), None
+            #return GoBoardUtil.int_to_color(GoBoardUtil.opponent(color))
+            winner = GoBoardUtil.opponent(color)
+            return winner, None
 
 
     # initial call with full window
@@ -111,8 +113,7 @@ class GoBoard(object):
         currentState = self.copy()
         currentState.to_play = colorInt
         booleanNegamaxResult, position = self.booleanNegamax(currentState)
-        if booleanNegamaxResult:
-            return booleanNegamaxResult, position
+        return booleanNegamaxResult, position
 
     def booleanNegamax(self, state):
         # the base case in NoGo will be either winning or losing.
