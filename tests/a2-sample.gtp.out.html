@@ -23,8 +23,8 @@ span.test { font-weight:bold; }
 </td></tr>
 </table>
 <table width="100%" bgcolor="#e0e0e0">
-<tr><th align="left">Date:</th><td>February 28, 2017 10:37:07 AM MST</td></tr>
-<tr><th align="left">Host:</th><td>Sann (Intel(R) Core(TM) i5-4300U CPU @ 1.90GHz)</td></tr>
+<tr><th align="left">Date:</th><td>February 28, 2017 7:59:05 PM MST</td></tr>
+<tr><th align="left">Host:</th><td>ua02 (Intel(R) Core(TM)2 CPU          6600  @ 2.40GHz)</td></tr>
 <tr><th align="left" valign="top">Command:</th>
 <td valign="top"><tt>python3 ../Go1.py</tt></td></tr>
 </table>
@@ -51,7 +51,7 @@ cputime
 <span class="test"><a name="10">10 solve
 </a>#? [b a1|b a2|b b1|b b2]
 = 
-b b2
+b a1
 
 </span><span class="comment"># All four moves win so all these are correct answers
 </span>
@@ -61,8 +61,8 @@ b b2
 
 <span class="test"><a name="20">20 solve
 </a>#? [b]
-</span><span class="fail">= 
-w
+= 
+b
 
 </span><span class="comment"># comment: It was white's turn but white loses, so we do not write a move
 </span>
@@ -91,9 +91,9 @@ unknown
 </span><span class="comment"># too hard to solve
 </span>
 <span class="command">timelimit 100
-</span><span class="error">? Unknown command
+</span>= 
 
-</span>
+
 <span class="test"><a name="50">50 solve
 </a>#? [unknown]
 = 
@@ -119,7 +119,7 @@ unknown
 </span>
 <span class="test"><a name="60">60 genmove b
 </a>#? [a2|b1]
-= b1
+= a2
 
 </span><span class="comment"># both moves win for b
 </span>
@@ -139,6 +139,6 @@ quit
 
 </pre>
 <hr style="margin-bottom:0" size="1">
-<p style="margin-top:1; margin-right:5" align="right"><i><small>Generated on 2/28/17 10:37 AM by gogui-regress 1.4.9 (<a href="http://gogui.sf.net">http://gogui.sf.net</a>)</small></i></p>
+<p style="margin-top:1; margin-right:5" align="right"><i><small>Generated on 2/28/17 8:00 PM by gogui-regress 1.4.9 (<a href="http://gogui.sf.net">http://gogui.sf.net</a>)</small></i></p>
 </body>
 </html>

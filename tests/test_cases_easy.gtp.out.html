@@ -23,10 +23,10 @@ span.test { font-weight:bold; }
 </td></tr>
 </table>
 <table width="100%" bgcolor="#e0e0e0">
-<tr><th align="left">Date:</th><td>February 28, 2017 5:56:35 PM MST</td></tr>
+<tr><th align="left">Date:</th><td>February 28, 2017 7:44:09 PM MST</td></tr>
 <tr><th align="left">Host:</th><td>ua02 (Intel(R) Core(TM)2 CPU          6600  @ 2.40GHz)</td></tr>
 <tr><th align="left" valign="top">Command:</th>
-<td valign="top"><tt>python3 ../Go1.py</tt></td></tr>
+<td valign="top"><tt>python ../Go1.py</tt></td></tr>
 </table>
 <pre style="margin:1em">
 name
@@ -129,4 +129,122 @@ b a1
 </span>= 
 
 <span class="test"><a name="30">30 solve
-</a>
+</a>#?[w b1|w b2|w c1]
+= 
+w b1
+
+</span>
+<span class="command">boardsize 4
+</span>= 
+
+<span class="command">clear_board
+</span>= 
+
+<span class="command">timelimit 5
+</span>= 
+
+<span class="command">play b c1
+</span>= 
+
+<span class="command">play w b4
+</span>= 
+
+<span class="command">play b a3
+</span>= 
+
+<span class="command">play w d2
+</span>= 
+
+<span class="command">play b d4
+</span>= 
+
+<span class="command">play w a1
+</span>= 
+
+<span class="command">play b b3
+</span>= 
+
+<span class="command">play w c2
+</span>= 
+
+<span class="command">play b c3
+</span>= 
+
+<span class="command">play w b2
+</span>= 
+
+<span class="test"><a name="40">40 solve
+</a>#?[w]
+= 
+w
+
+</span>
+<span class="command">boardsize 4
+</span>= 
+
+<span class="command">clear_board
+</span>= 
+
+<span class="command">timelimit 1
+</span>= 
+
+<span class="command">play b c1
+</span>= 
+
+<span class="command">play w b4
+</span>= 
+
+<span class="command">play b a3
+</span>= 
+
+<span class="command">play w d2
+</span>= 
+
+<span class="command">play b d4
+</span>= 
+
+<span class="command">play w a1
+</span>= 
+
+<span class="command">play b b3
+</span>= 
+
+<span class="command">play w c2
+</span>= 
+
+<span class="command">play b c3
+</span>= 
+
+<span class="command">play w b2
+</span>= 
+
+<span class="command">play b a4
+</span>= 
+
+<span class="command">play w d1
+</span>= 
+
+<span class="command">play b a2
+</span>= 
+
+<span class="command">play w d3
+</span>= 
+
+<span class="test"><a name="50">50 genmove b
+</a>#?[resign]
+= resign
+
+</span></pre>
+<hr style="margin:1em" size="1">
+<pre style="margin:1em">
+</span>cputime
+? Unknown command
+
+quit
+= 
+
+</pre>
+<hr style="margin-bottom:0" size="1">
+<p style="margin-top:1; margin-right:5" align="right"><i><small>Generated on 2/28/17 7:44 PM by gogui-regress 1.4.9 (<a href="http://gogui.sf.net">http://gogui.sf.net</a>)</small></i></p>
+</body>
+</html>
