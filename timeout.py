@@ -10,12 +10,14 @@ def timeout(time, func, failure):
         raise TimeoutException
         #pass    
     signal.signal(signal.SIGALRM, handler)
+    # set alarm
     signal.alarm(time)
 
             
     def wrapped(*args, **kwargs):
         try:
             result = func(*args, **kwargs)
+            # turn off alarm
             signal.alarm(0)
             return result
         except:

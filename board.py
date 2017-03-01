@@ -78,12 +78,14 @@ class GoBoard(object):
     #    return GoBoardUtil.int_to_color(self.to_play) + ' ' + position if win else GoBoardUtil.int_to_color(GoBoardUtil.opponent(self.to_play))
 
     def solve(self, color=0):
+        # if a color is given set it
         if color == 0:
             color = self.to_play
+        # create the timeout wrapper
         timeoutBooleanNegamaxCall = timeout(self.timelimit, self.booleanNegamaxCall, (None, None))
         win, position = timeoutBooleanNegamaxCall(color)
 
-#        win, position = self.booleanNegamaxCall(color)
+        # return the appropriate player and position
         if win == None:
             return None, None
         elif win:
@@ -94,46 +96,46 @@ class GoBoard(object):
             winner = GoBoardUtil.opponent(color)
             return winner, None
 
-
-    # initial call with full window
-    def alphaBetaCall(self, colorInt):
-        currentState = self.copy()
-        currentState.to_play = colorInt
-        depth = 1
-        while True:
-            alphaBetaResult, position = self.alphabetaDL(currentState, -10000, 10000, depth)
-            if alphaBetaResult != 0:
-                return alphaBetaResult, position
-            depth += 1
-
     # initial call with full window
     def booleanNegamaxCall(self, colorInt):
+        # copy the initial state when the solve was called
         currentState = self.copy()
+        # if this is for genmove we must specify which player is asked to solve
         currentState.to_play = colorInt
+        # remember values in memo for board
         memo = dict()
         booleanNegamaxResult, position = self.booleanNegamax(currentState, memo)
         return booleanNegamaxResult, position
 
     def booleanNegamax(self, state, memo):
+        # create hash to store the value of a explored state
         hash = ""
         for item in state.board:
             hash += str(item)
+        
+        # get result from memo, empty or not
         result = memo.get(hash)
+
+        # return if there        
         if result:
             return result
         # the base case in NoGo will be either winning or losing.
         # or in NoGo simply put the last able to play
         legalMovesForToPlay = state.generate_legal_moves(state.to_play)
         if  len(legalMovesForToPlay) == 0:
+            # store the winning state and value
             if state.get_winner() == state.to_play:
                 memo[hash] = (True, None)
                 return (True, None)
+            # store the losing state and value
             else:
                 memo[hash] = (False, None)
-                return (False, None) 
+                return (False, None)
+        # explore every legal move
         for move in state.generate_legal_moves(state.to_play):
             # simulation board
             priorBoard = np.array(state.board, copy = True)
+            # save to_play before executing move
             priorToPlay = state.to_play
             state.move(move, state.to_play)
             # only need the first argument
@@ -142,37 +144,13 @@ class GoBoard(object):
             # reset board
             state.board = priorBoard
             state.to_play = priorToPlay
+            # save winnning move and value
             if success:
                 memo[hash] = (True, move)
                 return True, move
+        # save losing move and value
         memo[hash] = (False, None)
         return False, None
-
-    # depth-limited alphabeta
-    def alphabetaDL(self, state, alpha, beta, depth):
-        if state.get_winner() or depth == 0:
-            return (state.staticallyEvaluateForToPlay(), None)
-        for m in state.generate_legal_moves(state.to_play):
-            # simulation board
-            priorBoard = np.array(state.board, copy = True)
-            priorToPlay = state.to_play
-            state.move(m, state.to_play)
-
-            value, _ = self.alphabetaDL(state, -beta, -alpha, depth - 1)
-            value = -value
-
-            if value > alpha:
-                alpha = value
-
-            # reset board
-            state.board = priorBoard
-            state.to_play = priorToPlay
-
-            if value >= beta: 
-                #return beta, str(GoBoardUtil.format_point(self._point_to_coord(m)))   # or value in failsoft (later)
-                return beta, m
-        #return alpha, str(GoBoardUtil.format_point(self._point_to_coord(m)))
-        return alpha, m
 
     def staticallyEvaluateForToPlay(self):
         if self.get_winner() == self.to_play:
