@@ -9,10 +9,11 @@ def timeout(time, func, failure):
     def handler(signum, other):
         raise TimeoutException
         #pass    
+    signal.signal(signal.SIGALRM, handler)
+    signal.alarm(time)
+
             
     def wrapped(*args, **kwargs):
-        signal.signal(signal.SIGALRM, handler)
-        signal.alarm(time)
         try:
             result = func(*args, **kwargs)
             signal.alarm(0)

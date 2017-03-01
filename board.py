@@ -82,6 +82,8 @@ class GoBoard(object):
             color = self.to_play
         timeoutBooleanNegamaxCall = timeout(self.timelimit, self.booleanNegamaxCall, (None, None))
         win, position = timeoutBooleanNegamaxCall(color)
+
+#        win, position = self.booleanNegamaxCall(color)
         if win == None:
             return None, None
         elif win:
@@ -108,28 +110,42 @@ class GoBoard(object):
     def booleanNegamaxCall(self, colorInt):
         currentState = self.copy()
         currentState.to_play = colorInt
-        booleanNegamaxResult, position = self.booleanNegamax(currentState)
+        memo = dict()
+        booleanNegamaxResult, position = self.booleanNegamax(currentState, memo)
         return booleanNegamaxResult, position
 
-    def booleanNegamax(self, state):
+    def booleanNegamax(self, state, memo):
+        hash = ""
+        for item in state.board:
+            hash += str(item)
+        result = memo.get(hash)
+        if result:
+            return result
         # the base case in NoGo will be either winning or losing.
         # or in NoGo simply put the last able to play
         legalMovesForToPlay = state.generate_legal_moves(state.to_play)
         if  len(legalMovesForToPlay) == 0:
-            return (True, None) if state.get_winner() == state.to_play else (False, None)
+            if state.get_winner() == state.to_play:
+                memo[hash] = (True, None)
+                return (True, None)
+            else:
+                memo[hash] = (False, None)
+                return (False, None) 
         for move in state.generate_legal_moves(state.to_play):
             # simulation board
             priorBoard = np.array(state.board, copy = True)
             priorToPlay = state.to_play
             state.move(move, state.to_play)
             # only need the first argument
-            success, _ = self.booleanNegamax(state) 
+            success, _ = self.booleanNegamax(state, memo) 
             success = not success
             # reset board
             state.board = priorBoard
             state.to_play = priorToPlay
             if success:
+                memo[hash] = (True, move)
                 return True, move
+        memo[hash] = (False, None)
         return False, None
 
     # depth-limited alphabeta
