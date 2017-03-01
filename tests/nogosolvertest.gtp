@@ -1,0 +1,71 @@
+boardsize 1
+clear_board
+timelimit 1
+10 solve
+#?[w]
+
+20 genmove b
+#?[resign]
+
+
+boardsize 3
+clear_board
+timelimit 1
+genmove b
+30 solve
+#?[b]
+
+boardsize 2
+clear_board
+timelimit 1
+40 solve
+#?[b a1|b a2|b b1|b b2]
+
+boardsize 5
+play b d3
+play w c4
+play b c3
+play w b5
+play b d2
+play w a3
+play b c2
+play w e3
+play b e4
+play w c5
+play b b4
+play w a5
+play b d4
+play w e2
+play b e5
+play w d1
+play b d5
+play w a1
+play b c1
+play w b1
+play b a2
+50 solve
+#?[w a4]
+
+play w a4
+60 solve
+#?[w]
+
+boardsize 7
+timelimit 100
+70 solve
+#?[unknown]
+
+boardsize 3
+timelimit 100
+80 solve
+#?[b a1]
+
+play b a1
+timelimit 100
+90 solve
+#?[b]
+
+boardsize 10
+timelimit 150
+100 solve
+#?[unknown]
