@@ -80,12 +80,8 @@ class GoBoard(object):
     def solve(self, color=0):
         if color == 0:
             color = self.to_play
-        #timeoutAlphaBetaCall = timeout(self.timelimit, self.alphaBetaCall, (None, None))
-        #timeoutBooleanNegamaxCall = timeout(self.timelimit, self.booleanNegamaxCall, (None, None))
-#        win, position = timeoutBooleanNegamaxCall(color)
-        win, position = self.booleanNegamaxCall(color)
-        #win, position = timeoutAlphaBetaCall(color)
-        #print("win is ", win, "position is ", position)
+        timeoutBooleanNegamaxCall = timeout(self.timelimit, self.booleanNegamaxCall, (None, None))
+        win, position = timeoutBooleanNegamaxCall(color)
         if win == None:
             return None, None
         elif win:
